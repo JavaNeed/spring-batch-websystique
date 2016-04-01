@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<import resource="classpath:context-datasource.xml" />
+
+	<!-- JobRepository and JobLauncher are configuration/setup classes -->
+	<bean id="jobRepository"  class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean id="jobLauncher" 	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	
+	<!-- ==== ItemReader which reads from DB and returns row mapped by RowMapper === -->
+	<bean id="databaseItemReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="sql" value="select * from customers" />
+
+		<property name="rowMapper">
+			<bean class="com.common.batch.mapper.CustomerMapper" />
+		</property>
+	</bean>
+
+	
+	<!-- ItemWritter -->
+	<bean id="itemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+		<property name="resource" value="file:xml/customers.xml" />
+	
+		<property name="marshaller" ref="customerUnmarshaller" />
+	
+		<property name="rootTagName" value="customers" />
+	</bean>
+	
+	
+	<!-- ======= Customer Unmarshaller ======== -->
+	<bean id="customerUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<property name="aliases">
+			<util:map id="aliases">
+				<entry key="customer" value="com.common.batch.model.Customer" />
+			</util:map>
+		</property>
+	</bean>
+	
+
+	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
+	<bean id="jobListener" class="com.common.batch.listener.CustomerJobListener" />
+
+	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
+	<bean id="itemProcessor" class="com.common.batch.processor.CustomerProcessor" />
+
+	<!-- Step will need a transaction manager -->
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+
+	<!-- ========== Actual Job ============ -->
+	<job id="examResultJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="step1">
+			<tasklet transaction-manager="transactionManager">
+				<chunk reader="databaseItemReader" writer="itemWriter" processor="itemProcessor" commit-interval="1" />
+			</tasklet>
+		</step>
+		
+		<batch:listeners>
+			<batch:listener ref="jobListener" />
+		</batch:listeners>
+	</job>
+</beans>
