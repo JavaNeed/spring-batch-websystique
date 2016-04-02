@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch	http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:context-datasource.xml" />
+	
+	<!-- JobRepository and JobLauncher are configuration/setup classes -->
+	<bean id="jobRepository"  class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean id="jobLauncher" 	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	
+	<!-- Step will need a transaction manager -->
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	
+	<job id="compositeJdbcReaderJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="compositeJdbcReaderStep">
+            <tasklet>
+                <chunk reader="compositeItemReader" writer="itemWriter" commit-interval="5" />
+            </tasklet>
+        </step>
+    </job>
+
+
+    <bean id="compositeItemReader" class="com.common.batch.reader.CompositeCursorItemReader">
+        <property name="unifyingMapper">
+            <bean class="com.common.batch.mapper.DefaultUnifyingStringItemsMapper" />
+        </property>
+        <property name="cursorItemReaders">
+            <list>
+                <ref bean="itemReader1" />
+                <ref bean="itemReader2" />                 
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemReader1" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+        <property name="dataSource" ref="dataSource" />
+       
+        <property name="saveState" value="true" />
+        
+        <property name="sql">
+            <value>
+                <![CDATA[ SELECT * FROM customers ]]>
+            </value>
+        </property>
+   		<property name="rowMapper">
+			<bean class="com.common.batch.mapper.CustomerMapper" />
+		</property>
+    </bean>
+
+    
+    
+    <bean id="itemReader2" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+        <property name="dataSource" ref="dataSource" />
+       
+        <property name="saveState" value="true" />
+       
+        <property name="sql">
+            <value>
+                <![CDATA[ SELECT * FROM employees ]]>
+            </value>
+        </property>
+        <property name="rowMapper">
+			<bean class="com.common.batch.mapper.EmployeeMapper" />
+		</property>
+    </bean>
+
+	
+    <bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+        <property name="resource" value="file:csv/employees.txt" />
+       
+        <property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+        </property>
+    </bean>
+</beans>

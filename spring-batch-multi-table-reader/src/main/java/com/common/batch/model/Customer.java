@@ -98,4 +98,10 @@ public class Customer implements Serializable{
 	public void setCreditLimit(Double creditLimit) {
 		this.creditLimit = creditLimit;
 	}
+	@Override
+	public String toString() {
+		return customerNumber + "|"	+ customerName + "|" + contactLastName + "|" + contactFirstName + "|" + 
+				phone+ "|" + addressLine1 + "|"	+ addressLine2 + "|" + city + "|" + state+ "|" + postalCode + "|" + 
+				country+ "|" + salesRepEmployeeNumber + "|" + creditLimit;
+	}
 }
