@@ -8,7 +8,7 @@
 	<import resource="classpath:context-datasource.xml" />
 	
 	<!-- JobRepository and JobLauncher are configuration/setup classes -->
-	<bean id="jobRepository"  class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
 
 	<bean id="jobLauncher" 	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
@@ -18,11 +18,19 @@
 	<!-- Step will need a transaction manager -->
 	<bean id="transactionManager"
 		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
-	
+
+
+	<!-- =========================================================== -->	
 	<job id="compositeJdbcReaderJob" xmlns="http://www.springframework.org/schema/batch">
-        <step id="compositeJdbcReaderStep">
+        <step id="compositeJdbcReaderStep" next="step2">
             <tasklet>
                 <chunk reader="compositeItemReader" writer="itemWriter" commit-interval="5" />
+            </tasklet>
+        </step>
+        
+        <step id="step2">
+            <tasklet>
+                <chunk reader="compositeItemReader2" writer="itemWriter2" commit-interval="5" />
             </tasklet>
         </step>
     </job>
@@ -35,10 +43,21 @@
         <property name="cursorItemReaders">
             <list>
                 <ref bean="itemReader1" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="compositeItemReader2" class="com.common.batch.reader.CompositeCursorItemReader">
+        <property name="unifyingMapper">
+            <bean class="com.common.batch.mapper.DefaultUnifyingStringItemsMapper" />
+        </property>
+        <property name="cursorItemReaders">
+            <list>
                 <ref bean="itemReader2" />                 
             </list>
         </property>
     </bean>
+    
 
     <bean id="itemReader1" class="org.springframework.batch.item.database.JdbcCursorItemReader">
         <property name="dataSource" ref="dataSource" />
@@ -74,8 +93,17 @@
 
 	
     <bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
-        <property name="resource" value="file:csv/employees.txt" />
-       
+        <property name="resource" value="file:csv/final-all.txt" />
+       	<!-- <property name="appendAllowed" value="true" /> -->
+        <property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+        </property>
+    </bean>
+    
+    
+    <bean id="itemWriter2" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+        <property name="resource" value="file:csv/final-all.txt" />
+        <property name="appendAllowed" value="true" />
         <property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
         </property>
