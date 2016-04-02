@@ -66,7 +66,7 @@
         
         <property name="sql">
             <value>
-                <![CDATA[ SELECT * FROM customers ]]>
+                <![CDATA[ ${select.sql.customers} ]]>
             </value>
         </property>
    		<property name="rowMapper">
@@ -83,7 +83,7 @@
        
         <property name="sql">
             <value>
-                <![CDATA[ SELECT * FROM employees ]]>
+                <![CDATA[ ${select.sql.employees} ]]>
             </value>
         </property>
         <property name="rowMapper">
@@ -92,8 +92,9 @@
     </bean>
 
 	
+	<!-- ============= Flat File Writters ============= -->
     <bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
-        <property name="resource" value="file:csv/final-all.txt" />
+        <property name="resource" value="${output.file.location}" />
        	<!-- <property name="appendAllowed" value="true" /> -->
         <property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
@@ -102,7 +103,7 @@
     
     
     <bean id="itemWriter2" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
-        <property name="resource" value="file:csv/final-all.txt" />
+        <property name="resource" value="${output.file.location}" />
         <property name="appendAllowed" value="true" />
         <property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
