@@ -22,13 +22,13 @@
 
 	<!-- =========================================================== -->	
 	<job id="compositeJdbcReaderJob" xmlns="http://www.springframework.org/schema/batch">
-        <step id="compositeJdbcReaderStep" next="step2">
+        <step id="compositeJdbcReaderStep" next="compositeJdbcReaderStep2">
             <tasklet>
                 <chunk reader="compositeItemReader" writer="itemWriter" commit-interval="5" />
             </tasklet>
         </step>
         
-        <step id="step2">
+        <step id="compositeJdbcReaderStep2">
             <tasklet>
                 <chunk reader="compositeItemReader2" writer="itemWriter2" commit-interval="5" />
             </tasklet>
@@ -36,6 +36,7 @@
     </job>
 
 
+	<!-- ============= Composite Item Reader ================ -->
     <bean id="compositeItemReader" class="com.common.batch.reader.CompositeCursorItemReader">
         <property name="unifyingMapper">
             <bean class="com.common.batch.mapper.DefaultUnifyingStringItemsMapper" />
@@ -59,6 +60,7 @@
     </bean>
     
 
+	<!-- ========== ItemReader =============== -->
     <bean id="itemReader1" class="org.springframework.batch.item.database.JdbcCursorItemReader">
         <property name="dataSource" ref="dataSource" />
        
@@ -74,8 +76,7 @@
 		</property>
     </bean>
 
-    
-    
+
     <bean id="itemReader2" class="org.springframework.batch.item.database.JdbcCursorItemReader">
         <property name="dataSource" ref="dataSource" />
        
