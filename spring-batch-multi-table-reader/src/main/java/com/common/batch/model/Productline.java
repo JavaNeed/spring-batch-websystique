@@ -1,8 +1,8 @@
 package com.common.batch.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
-import com.mysql.jdbc.Blob;
 
 public class Productline implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -11,6 +11,7 @@ public class Productline implements Serializable{
 	private String textDescription;
 	private Blob htmlDescription;
 	private Blob image;
+	
 	public String getProductLine() {
 		return productLine;
 	}
