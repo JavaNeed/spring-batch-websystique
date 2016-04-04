@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/batch
+http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+	<import resource="datasource-config.xml" />
+	<import resource="job-context.xml" />
+	
+	<!-- JOB -->
+	<job id="employeeJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="employeeprocessor">
+			<tasklet>
+				<chunk reader="reader" writer="writer" commit-interval="3" 
+				processor="employeeProcessor" skip-limit="1">
+					<skippable-exception-classes>
+						<include class="org.springframework.batch.item.file.FlatFileParseException" />
+					</skippable-exception-classes>
+				</chunk>
+			</tasklet>
+		</step>
+	</job>
+
+
+	<!-- ItemReader -->
+	<bean id="reader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+		<property name="resource" value="classpath:input/employees.csv" />
+		
+		<property name="linesToSkip" value="1" />
+		
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="EMP_ID,CITY,COUNTRY" />
+						<property name="delimiter" value="," />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="javabeat.net.EmployeeDataMapper" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="employeeProcessor" class="javabeat.net.EmployeeProcessor" />
+
+	<bean id="writer" class="javabeat.net.OrderItemWriter">
+		<constructor-arg ref="dataSource" />
+	</bean>
+</beans>

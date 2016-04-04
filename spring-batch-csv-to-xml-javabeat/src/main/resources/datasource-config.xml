@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+ 
+ 	
+ 	<context:property-placeholder location="classpath:database.properties" />
+ 
+        <!-- connect to database -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.mysql.driverClassName}" />
+		<property name="url" value="${jdbc.mysql.url}" />
+		<property name="username" value="${jdbc.mysql.username}" />
+		<property name="password" value="${jdbc.mysql.password}" />
+	</bean>
+ 
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<!-- create job-meta tables automatically In production you don't need to
+		create this every time. Just create once in production. -->
+	<!-- <jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="org/springframework/batch/core/schema-drop-mysql.sql" />
+		<jdbc:script location="org/springframework/batch/core/schema-mysql.sql" />
+	</jdbc:initialize-database> -->
+ </beans>
