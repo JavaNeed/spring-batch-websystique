@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+	<employee>
+		<address>delhi</address>
+		<age>17</age>
+		<empid>1111</empid>
+		<name>ATUL KUMAR</name>
+		<salary>300000.0</salary>
+	</employee>
+	<employee>
+		<address>delhi</address>
+		<age>27</age>
+		<empid>2222</empid>
+		<name>Dinesh Rajput</name>
+		<salary>60000.0</salary>
+	</employee>
+	<employee>
+		<address>delhi</address>
+		<age>21</age>
+		<empid>3333</empid>
+		<name>ASHUTOSH RAJPUT</name>
+		<salary>400000.0</salary>
+	</employee>
+	<employee>
+		<address>Kanpur</address>
+		<age>27</age>
+		<empid>4444</empid>
+		<name>Adesh Verma</name>
+		<salary>80000.0</salary>
+	</employee>
+	<employee>
+		<address>Noida</address>
+		<age>37</age>
+		<empid>5555</empid>
+		<name>Dinesh Rajput</name>
+		<salary>300000.0</salary>
+	</employee>
+</employees>
