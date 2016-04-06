@@ -24,20 +24,20 @@
 	<job id="compositeJdbcReaderJob" xmlns="http://www.springframework.org/schema/batch">
         <step id="compositeJdbcReaderStep" next="compositeJdbcReaderStep2">
             <tasklet>
-                <chunk reader="compositeItemReader" writer="itemWriter" commit-interval="5" />
+                <chunk reader="itemReader1" writer="itemWriter" commit-interval="5" />
             </tasklet>
         </step>
         
         <step id="compositeJdbcReaderStep2">
             <tasklet>
-                <chunk reader="compositeItemReader2" writer="itemWriter2" commit-interval="5" />
+                <chunk reader="itemReader2" writer="itemWriter2" commit-interval="5" />
             </tasklet>
         </step>
     </job>
 
 
 	<!-- ============= Composite Item Reader ================ -->
-    <bean id="compositeItemReader" class="com.common.batch.reader.CompositeCursorItemReader">
+    <!-- <bean id="compositeItemReader" class="com.common.batch.reader.CompositeCursorItemReader">
         <property name="unifyingMapper">
             <bean class="com.common.batch.mapper.DefaultUnifyingStringItemsMapper" />
         </property>
@@ -57,7 +57,7 @@
                 <ref bean="itemReader2" />                 
             </list>
         </property>
-    </bean>
+    </bean> -->
     
 
 	<!-- ========== ItemReader =============== -->
@@ -96,18 +96,35 @@
 	<!-- ============= Flat File Writters ============= -->
     <bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
         <property name="resource" value="${output.file.location}" />
-       	<!-- <property name="appendAllowed" value="true" /> -->
+       	<property name="appendAllowed" value="false" />
+       	<property name="shouldDeleteIfExists" value="true" />
         <property name="lineAggregator">
-            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="customerNumber,customerName,contactLastName,contactFirstName,phone,addressLine1,addressLine2,city,state,postalCode,
+country,salesRepEmployeeNumber,creditLimit" />
+					</bean>
+				</property>
+			</bean>
         </property>
     </bean>
     
     
     <bean id="itemWriter2" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
         <property name="resource" value="${output.file.location}" />
+       	<property name="shouldDeleteIfExists" value="true" />
         <property name="appendAllowed" value="true" />
         <property name="lineAggregator">
-            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="employeeNumber,lastName,firstName,extension,email,officeCode,reportsTo,jobTitle" />
+					</bean>
+				</property>
+			</bean>
         </property>
     </bean>
 </beans>
