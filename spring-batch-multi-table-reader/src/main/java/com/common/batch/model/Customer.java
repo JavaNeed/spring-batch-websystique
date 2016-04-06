@@ -2,6 +2,7 @@ package com.common.batch.model;
 
 import java.io.Serializable;
 
+
 public class Customer implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -97,11 +98,5 @@ public class Customer implements Serializable{
 	}
 	public void setCreditLimit(Double creditLimit) {
 		this.creditLimit = creditLimit;
-	}
-	@Override
-	public String toString() {
-		return customerNumber + "|"	+ customerName + "|" + contactLastName + "|" + contactFirstName + "|" + 
-				phone+ "|" + addressLine1 + "|"	+ addressLine2 + "|" + city + "|" + state+ "|" + postalCode + "|" + 
-				country+ "|" + salesRepEmployeeNumber + "|" + creditLimit;
 	}
 }

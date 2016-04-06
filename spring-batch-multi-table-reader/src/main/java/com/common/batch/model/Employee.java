@@ -63,10 +63,4 @@ public class Employee implements Serializable{
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
 	}
-	
-	@Override
-	public String toString() {
-		return employeeNumber + "|"+ lastName + "|" + firstName + "|"+ extension + 
-				"|" + email + "|" + officeCode+ "|" + reportsTo + "|" + jobTitle;
-	}
 }

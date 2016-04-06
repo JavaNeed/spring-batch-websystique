@@ -36,8 +36,7 @@
 		<property name="lineAggregator">
 
 			<!-- An Aggregator which converts an object into delimited list of strings -->
-			<bean
-				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
 				<property name="delimiter" value="|" />
 
 				<property name="fieldExtractor">

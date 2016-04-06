@@ -11,18 +11,14 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class MainApp {
+public class CompositeXMLMain {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		// for CSV - This works fine, no need to override equals method
-		//ApplicationContext context = new ClassPathXmlApplicationContext("forCSV/spring-batch-context.xml");
-		
-		// for XML
-		ApplicationContext context = new ClassPathXmlApplicationContext("forXML/spring-batch-context.xml");
-		
+		ApplicationContext context = new ClassPathXmlApplicationContext("composite/xml-jdbc-composite-item-reader-job.xml");
+
 		JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-		Job job = (Job) context.getBean("examResultJob");
-		
+		Job job = (Job) context.getBean("compositeJdbcReaderJob");
+
 		JobExecution execution;
 		try {
 			execution = jobLauncher.run(job, new JobParameters());
