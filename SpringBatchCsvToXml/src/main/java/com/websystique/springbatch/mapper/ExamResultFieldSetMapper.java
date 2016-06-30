@@ -1,4 +1,4 @@
-package com.websystique.springbatch;
+package com.websystique.springbatch.mapper;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -14,11 +14,11 @@ public class ExamResultFieldSetMapper implements FieldSetMapper<ExamResult>{
 
 	@Override
 	public ExamResult mapFieldSet(FieldSet fieldSet) throws BindException {
+		LOGGER.debug("~~~~ ExamResultFieldSetMapper : mapFieldSet ~~~~");
 		ExamResult result = new ExamResult();
 		result.setStudentName(fieldSet.readString(0));
 		result.setDob(new LocalDate(fieldSet.readDate(1,"dd/MM/yyyy")));
 		result.setPercentage(fieldSet.readDouble(2));
 		return result;
 	}
-
 }

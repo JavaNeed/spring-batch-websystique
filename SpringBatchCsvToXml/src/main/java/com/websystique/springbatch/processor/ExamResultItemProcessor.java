@@ -1,4 +1,4 @@
-package com.websystique.springbatch;
+package com.websystique.springbatch.processor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

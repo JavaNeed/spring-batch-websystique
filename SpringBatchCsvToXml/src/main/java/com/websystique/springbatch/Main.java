@@ -12,20 +12,20 @@ public class Main {
 
 	@SuppressWarnings("resource")
 	public static void main(String areg[]){
-		
+
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-batch-context.xml");
-		
+
 		JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
 		Job job = (Job) context.getBean("examResultJob");
-	 
+
 		try {
+			System.out.println("-----------------------------------------");
 			JobExecution execution = jobLauncher.run(job, new JobParameters());
 			System.out.println("Job Exit Status : "+ execution.getStatus());
-	 
+			System.out.println("-----------------------------------------");
 		} catch (JobExecutionException e) {
 			System.out.println("Job ExamResult failed");
 			e.printStackTrace();
 		}
 	}
-
 }

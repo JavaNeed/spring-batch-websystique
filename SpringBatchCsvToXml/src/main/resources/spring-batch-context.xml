@@ -13,7 +13,7 @@
 
 
 	<!-- ============= ItemReader reads a complete line one by one from input file ============ -->
-	<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader"  scope="step">
+	<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
 	
 		<!-- Get the Resource file -->
 		<property name="resource" value="classpath:ExamResult.txt" />
@@ -23,7 +23,7 @@
 
 				<property name="fieldSetMapper">
 					<!-- Mapper which maps each individual items in a record to properties in POJO -->
-					<bean class="com.websystique.springbatch.ExamResultFieldSetMapper" />
+					<bean class="com.websystique.springbatch.mapper.ExamResultFieldSetMapper" />
 				</property>
 
 				<property name="lineTokenizer">
@@ -56,15 +56,16 @@
 	</bean>
 
 	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
-	<bean id="itemProcessor" class="com.websystique.springbatch.ExamResultItemProcessor" />
+	<bean id="itemProcessor" class="com.websystique.springbatch.processor.ExamResultItemProcessor" />
 
 	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
-	<bean id="jobListener" class="com.websystique.springbatch.ExamResultJobListener" />
+	<bean id="jobListener" class="com.websystique.springbatch.listener.ExamResultJobListener" />
 
 	<!-- Step will need a transaction manager -->
 	<bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
-	<!-- Actual Job -->
+
+	<!-- ==================== Actual Job =================== -->
 	<batch:job id="examResultJob">
 		<batch:step id="step1">
 			<batch:tasklet transaction-manager="transactionManager">
@@ -75,5 +76,4 @@
 			<batch:listener ref="jobListener" />
 		</batch:listeners>
 	</batch:job>
-
 </beans>			
