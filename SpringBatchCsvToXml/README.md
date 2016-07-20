@@ -90,3 +90,69 @@ Following technologies being used:
 Reference URL:
 -------------
 http://websystique.com/springbatch/spring-batch-read-a-csv-file-and-write-to-an-xml-file/
+
+
+
+USEFULINFO
+----------
+git add -A is equivalent to  git add .; git add -u.
+
+The important point about git add . is that it looks at the working tree and adds all those paths to the staged changes if they are either changed or are new and not ignored, it does not stage any 'rm' actions.
+
+git add -u looks at all the already tracked files and stages the changes to those files if they are different or if they have been removed. It does not add any new files, it only stages changes to already tracked files.
+
+git add -A is a handy shortcut for doing both.
+
+You can test the differences out with something like this (not that for Git version 2.x your output for git add . git status will be different):
+
+git init
+echo Change me > change-me
+echo Delete me > delete-me
+git add change-me delete-me
+git commit -m initial
+
+echo OK >> change-me
+rm delete-me
+echo Add me > add-me
+
+git status
+# Changed but not updated:
+#   modified:   change-me
+#   deleted:    delete-me
+# Untracked files:
+#   add-me
+
+git add .
+git status
+
+# Changes to be committed:
+#   new file:   add-me
+#   modified:   change-me
+# Changed but not updated:
+#   deleted:    delete-me
+
+git reset
+
+git add -u
+git status
+
+# Changes to be committed:
+#   modified:   change-me
+#   deleted:    delete-me
+# Untracked files:
+#   add-me
+
+git reset
+
+git add -A
+git status
+
+# Changes to be committed:
+#   new file:   add-me
+#   modified:   change-me
+#   deleted:    delete-me
+Summary:
+
+git add -A stages All
+git add . stages new and modified, without deleted
+git add -u stages modified and deleted, without new

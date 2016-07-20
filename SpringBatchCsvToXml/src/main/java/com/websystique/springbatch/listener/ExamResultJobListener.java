@@ -25,7 +25,8 @@ public class ExamResultJobListener implements JobExecutionListener{
 	public void afterJob(JobExecution jobExecution) {
 		stopTime = new DateTime();
 		LOGGER.debug("ExamResult Job stops at :"+stopTime);
-		LOGGER.debug("Total time take in millis :"+getTimeInMillis(startTime , stopTime));
+		LOGGER.debug("------------------------------------------------");
+		LOGGER.debug("Total time take in milliseconds :"+getTimeInMillis(startTime , stopTime));
 		LOGGER.debug("------------------------------------------------");
 		
 		if(jobExecution.getStatus() == BatchStatus.COMPLETED){

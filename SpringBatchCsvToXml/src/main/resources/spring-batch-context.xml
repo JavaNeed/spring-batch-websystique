@@ -41,6 +41,9 @@
 	<bean id="xmlItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
 
 		<property name="resource" value="file:xml/ExamResult.xml" />
+		
+		<!-- This will see if output file present, if yes, it will throw exception, default value overwriteOutput = true -->
+		<!-- <property name="overwriteOutput" value="false" /> -->
 
 		<property name="rootTagName" value="UniversityExamResultList" />
 

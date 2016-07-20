@@ -4,3 +4,4 @@ Renard konig   |   01/02/1970  |   61
 Kevin Richard  |   01/02/2002  |   59
 Rita Paul      |   01/02/1993  |   92
 Han Yenn       |   01/02/1965  |   83
+John Doe       |   10/12/2000  |   80
