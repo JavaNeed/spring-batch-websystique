@@ -12,14 +12,16 @@ http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
 	<job id="employeeJob" xmlns="http://www.springframework.org/schema/batch">
 		<step id="employeeprocessor">
 			<tasklet>
-				<chunk reader="reader" writer="writer" commit-interval="3" 
-				processor="employeeProcessor" skip-limit="1">
+				<chunk reader="reader" writer="writer" commit-interval="3" processor="employeeProcessor" skip-limit="1">
 					<skippable-exception-classes>
 						<include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</skippable-exception-classes>
 				</chunk>
 			</tasklet>
 		</step>
+		<!-- <batch:listeners>
+			<batch:listener ref="jobListener" />
+		</batch:listeners> -->
 	</job>
 
 
@@ -45,6 +47,9 @@ http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
 	</bean>
 	
 	<bean id="employeeProcessor" class="javabeat.net.EmployeeProcessor" />
+	
+	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
+	<bean id="jobListener" class="javabeat.net.EmployeeJobListener" />
 
 	<bean id="writer" class="javabeat.net.OrderItemWriter">
 		<constructor-arg ref="dataSource" />

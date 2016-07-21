@@ -17,6 +17,7 @@ public class Main {
 		Job job = (Job) context.getBean("employeeJob");
 
 		try {
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			JobExecution execution = jobLauncher.run(job, new JobParameters());
 			System.out.println("Exit Status : " + execution.getStatus());
 		} catch (Exception e) {

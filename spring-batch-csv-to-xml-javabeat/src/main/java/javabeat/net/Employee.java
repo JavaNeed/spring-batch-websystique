@@ -36,4 +36,10 @@ public class Employee implements Serializable {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", city=" + city + ", country="	+ country + "]";
+	}
+	
+	
 }

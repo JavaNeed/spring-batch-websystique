@@ -8,10 +8,10 @@ public class EmployeeDataMapper implements FieldSetMapper<Employee>{
 
 	@Override
 	public Employee mapFieldSet(FieldSet fieldSet) throws BindException {
-		Employee order = new Employee();
-		order.setEmpId(fieldSet.readString(0));
-		order.setCity(fieldSet.readString(1));
-		order.setCountry(fieldSet.readString(2));
-		return order;
+		Employee employee = new Employee();
+		employee.setEmpId(fieldSet.readString(0));
+		employee.setCity(fieldSet.readString(1));
+		employee.setCountry(fieldSet.readString(2));
+		return employee;
 	}
 }
