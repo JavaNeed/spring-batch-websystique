@@ -25,7 +25,10 @@
 	<!-- ============== ItemWriter writes a line into output flat file =========== -->
 	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 
-		<property name="resource" value="file:csv/examResult.txt" />
+		<!-- <property name="resource" value="file:csv/examResult.txt" /> -->
+		
+		<property name="resource" value="file:csv/examResult-#{new java.text.SimpleDateFormat(&quot;dd-MMM-yyyy-hhmmss&quot;).format(new java.util.GregorianCalendar().getTime())}.txt" />
+		
 		<property name="lineAggregator">
 
 			<!-- An Aggregator which converts an object into delimited list of strings -->
@@ -57,8 +60,7 @@
 	<batch:job id="examResultJob">
 		<batch:step id="step1">
 			<batch:tasklet transaction-manager="transactionManager">
-				<batch:chunk reader="databaseItemReader" writer="flatFileItemWriter"
-					processor="itemProcessor" commit-interval="10" />
+				<batch:chunk reader="databaseItemReader" writer="flatFileItemWriter" processor="itemProcessor" commit-interval="10" />
 			</batch:tasklet>
 		</batch:step>
 		<batch:listeners>
