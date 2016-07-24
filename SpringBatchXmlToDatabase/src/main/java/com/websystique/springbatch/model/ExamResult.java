@@ -16,7 +16,7 @@ public class ExamResult {
 	private String studentName;
 
 	@XmlElement(name = "dob")
-	@XmlJavaTypeAdapter(type = LocalDate.class, value = com.websystique.springbatch.LocalDateAdapter.class)
+	@XmlJavaTypeAdapter(type = LocalDate.class, value = com.websystique.springbatch.utils.LocalDateAdapter.class)
 	private LocalDate dob;
 
 	@XmlElement(name = "percentage")

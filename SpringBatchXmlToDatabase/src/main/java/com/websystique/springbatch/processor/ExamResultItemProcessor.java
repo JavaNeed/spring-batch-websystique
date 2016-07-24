@@ -1,4 +1,4 @@
-package com.websystique.springbatch;
+package com.websystique.springbatch.processor;
 
 import org.springframework.batch.item.ItemProcessor;
 

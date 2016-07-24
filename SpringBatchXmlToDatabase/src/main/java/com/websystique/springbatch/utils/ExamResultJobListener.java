@@ -1,4 +1,4 @@
-package com.websystique.springbatch;
+package com.websystique.springbatch.utils;
 
 import java.util.List;
 
