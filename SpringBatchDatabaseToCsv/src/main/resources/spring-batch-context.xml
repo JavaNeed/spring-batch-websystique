@@ -5,13 +5,6 @@
 
 	<import resource="classpath:context-datasource.xml" />
 
-	<!-- JobRepository and JobLauncher are configuration/setup classes -->
-	<bean id="jobRepository"  class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
-
-	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository" />
-	</bean>
-
 
 	<!-- ================ ItemReader which reads from database and 
 		returns the row mapped by rowMapper =======================-->
@@ -19,10 +12,12 @@
 
 		<property name="dataSource" ref="dataSource" />
 
-		<property name="sql" value="SELECT STUDENT_NAME, DOB, PERCENTAGE FROM EXAM_RESULT" />
+		<!-- <property name="sql" value="SELECT STUDENT_NAME, DOB, PERCENTAGE FROM EXAM_RESULT" /> -->
+		
+		<property name="sql" value="SELECT student_name, dob, percentage FROM exam_result" />
 
 		<property name="rowMapper">
-			<bean class="com.websystique.springbatch.ExamResultRowMapper" />
+			<bean class="com.websystique.springbatch.mapper.ExamResultRowMapper" />
 		</property>
 	</bean>
 
@@ -49,10 +44,10 @@
 
 
 	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
-	<bean id="jobListener" class="com.websystique.springbatch.ExamResultJobListener" />
+	<bean id="jobListener" class="com.websystique.springbatch.listener.ExamResultJobListener" />
 
 	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
-	<bean id="itemProcessor" class="com.websystique.springbatch.ExamResultItemProcessor" />
+	<bean id="itemProcessor" class="com.websystique.springbatch.processor.ExamResultItemProcessor" />
 
 	<!-- Step will need a transaction manager -->
 	<bean id="transactionManager"

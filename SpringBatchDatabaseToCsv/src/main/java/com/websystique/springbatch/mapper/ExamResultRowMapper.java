@@ -1,4 +1,4 @@
-package com.websystique.springbatch;
+package com.websystique.springbatch.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

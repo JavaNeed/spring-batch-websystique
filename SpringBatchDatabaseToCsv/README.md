@@ -55,7 +55,7 @@ We will be mapping the data from database table to properties of our domain obje
 		<property name="sql" value="SELECT STUDENT_NAME, DOB, PERCENTAGE FROM EXAM_RESULT" />
 
 		<property name="rowMapper">
-			<bean class="com.websystique.springbatch.ExamResultRowMapper" />
+			<bean class="com.websystique.springbatch.mapper.ExamResultRowMapper" />
 		</property>
 	</bean>
 
@@ -82,10 +82,10 @@ We will be mapping the data from database table to properties of our domain obje
 
 
 	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
-	<bean id="jobListener" class="com.websystique.springbatch.ExamResultJobListener" />
+	<bean id="jobListener" class="com.websystique.springbatch.listener.ExamResultJobListener" />
 
 	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
-	<bean id="itemProcessor" class="com.websystique.springbatch.ExamResultItemProcessor" />
+	<bean id="itemProcessor" class="com.websystique.springbatch.processor.ExamResultItemProcessor" />
 
 	<!-- Step will need a transaction manager -->
 	<bean id="transactionManager"
