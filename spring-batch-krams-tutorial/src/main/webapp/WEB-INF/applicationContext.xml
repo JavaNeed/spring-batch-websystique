@@ -24,14 +24,14 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" /> 
  	
  	<!-- Import extra configuration -->
-	<import resource="trace-context.xml"/>
-	<import resource="spring-data.xml"/>
-	<import resource="spring-batch.xml"/>
-	<import resource="spring-batch-job1.xml"/>
-	<import resource="spring-batch-job2.xml"/>
-	<import resource="spring-batch-job3.xml"/>
+	<import resource="classpath:/aop/trace-context.xml"/>
+	<import resource="classpath:spring-data.xml"/>
+	<import resource="classpath:batch/spring-batch.xml"/>
+	<import resource="classpath:batch/job/spring-batch-job1.xml"/>
+	<import resource="classpath:batch/job/spring-batch-job2.xml"/>
+	<import resource="classpath:batch/job/spring-batch-job3.xml"/>
 	
 	<bean id="deployProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean"
-        p:location="/WEB-INF/spring.properties" />
+        p:location="classpath:spring.properties" />
         
 </beans>

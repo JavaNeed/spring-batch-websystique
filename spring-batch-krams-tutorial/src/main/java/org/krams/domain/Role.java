@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 public class Role {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Should never use GenerationType.AUTO or @GeneratedValue
 	private Long id;
 	
 	@OneToOne
