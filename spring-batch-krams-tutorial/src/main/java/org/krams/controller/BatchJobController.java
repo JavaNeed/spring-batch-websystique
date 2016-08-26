@@ -23,13 +23,16 @@ public class BatchJobController {
 	@Autowired
 	private JobLauncher jobLauncher;
 	
-	@Autowired @Qualifier("batchJob1")
+	@Autowired 
+	@Qualifier("batchJob1")
 	private Job job1;
 	
-	@Autowired @Qualifier("batchJob2")
+	@Autowired 
+	@Qualifier("batchJob2")
 	private Job job2;
 	
-	@Autowired @Qualifier("batchJob3")
+	@Autowired 
+	@Qualifier("batchJob3")
 	private Job job3;
 	
 	@RequestMapping(value="/job1")

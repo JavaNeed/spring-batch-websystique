@@ -21,9 +21,14 @@
 	<bean id="userWriter" class="org.krams.batch.UserItemWriter"/>
 	<bean id="roleWriter" class="org.krams.batch.RoleItemWriter"/>	
 	
-	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+	<!-- <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		p:jobRepository-ref="jobRepository" 
-		p:taskExecutor-ref="taskExecutor"/>
+		p:taskExecutor-ref="taskExecutor"/> -->
+		
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher" >
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="taskExecutor" ref="taskExecutor" />
+	</bean>
 	
 	<!-- 4.3. Configuring a JobLauncher asynchronously -->
 	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />

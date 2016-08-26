@@ -32,6 +32,7 @@
 	</job>
 	
 
+	<!-- =======  Flat File Item Reader ======== -->
 	<bean id="userFileItemReader2" class="org.springframework.batch.item.file.FlatFileItemReader">
 		<property name="resource" value="classpath:${user2.file.name}" />
 		<property name="lineMapper">
@@ -49,6 +50,7 @@
 		</property>
 	</bean>
 
+	<!-- =======  Flat File Item Reader ======== -->
 	<bean id="roleFileItemReader2" class="org.springframework.batch.item.file.FlatFileItemReader">
 		<property name="resource" value="classpath:${role2.file.name}" />
 		<property name="lineMapper">

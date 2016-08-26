@@ -10,22 +10,49 @@
 
 
 	<properties>
-		<java.version>1.8</java.version>
+		<!-- General Properties -->
+		<java.version>1.7</java.version>
+		
+		<!-- Spring -->
 		<springframework.version>4.3.0.RELEASE</springframework.version>
+		
+		<!-- Spring Batch -->
 		<springbatch.version>3.0.6.RELEASE</springbatch.version>
+		
+		<!-- Hibernate -->
 		<hibernate.version>4.3.6.Final</hibernate.version>
-		<aspectj.version>1.8.9</aspectj.version>
-		<cglib.version>3.2.4</cglib.version>
-		<jackson.version>1.9.13</jackson.version>
-		<spring.data.jpa.version>1.10.2.RELEASE</spring.data.jpa.version>
 		<hibernate.entitymanager.version>5.1.0.Final</hibernate.entitymanager.version>
 		<javassist.version>3.18.1-GA</javassist.version>
+		
+		<!-- AspectJ -->
+		<aspectj.version>1.8.9</aspectj.version>
+		
+		<!-- CGLIB -->
+		<cglib.version>3.2.4</cglib.version>
+		
+		<!-- Jackson -->
+		<jackson.version>1.9.13</jackson.version>
+		
+		<!-- Spring Data JPA -->
+		<spring.data.jpa.version>1.10.2.RELEASE</spring.data.jpa.version>
+		
+		<!-- MYSQL -->
 		<mysql.version>5.1.39</mysql.version>
-		<joda-time.version>2.3</joda-time.version>
+		
+		<!-- Joda Time -->
+		<joda-time.version>2.9</joda-time.version>
+		
+		<!-- Connection Pooling -->
 		<c3p0.version>0.9.5-pre8</c3p0.version>
+		
+		<!-- Query DSL -->
 		<querydsl.version>3.7.4</querydsl.version>
+
+		<!-- Servlet API -->
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<mockito.version>1.10.19</mockito.version>
+		
+		<!-- Logging -->
 		<logback.version>1.1.7</logback.version>
 		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
 	</properties>
@@ -62,8 +89,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${springframework.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 
 		<!-- Spring JDBC -->
