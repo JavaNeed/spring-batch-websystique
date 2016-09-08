@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+	<employee>
+		<address>Delhi</address>
+		<age>17</age>
+		<empid>333</empid>
+		<name>Dinesh Rajput</name>
+		<salary>300000.0</salary>
+	</employee>
+</employees>

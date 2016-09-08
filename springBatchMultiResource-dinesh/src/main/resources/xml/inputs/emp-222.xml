@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+	<employee>
+		<address>Noida</address>
+		<age>21</age>
+		<empid>222</empid>
+		<name>ASHUTOSH RAJPUT</name>
+		<salary>400000.0</salary>
+	</employee>
+</employees>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+	<employee>
+		<address>Mumbai</address>
+		<age>17</age>
+		<empid>111</empid>
+		<name>ATUL KUMAR</name>
+		<salary>700000.0</salary>
+	</employee>
+</employees>
