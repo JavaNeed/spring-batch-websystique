@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <description>
+        Spring Batch Example reading gzipped files.
+        
+        - reads gzip and extracts as text file
+        - reader is configured with custom gzip bufferedReaderFactory
+        - input/output files are configured with stepscope and jobparameters
+        - expects an input file, see http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/item/file/FlatFileItemReader.html#setStrict(boolean)
+        - uses http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/item/file/mapping/PassThroughLineMapper.html
+        
+        see:
+            - http://static.springsource.org/spring-batch/reference/html-single/index.html#flatFileItemReader
+            - http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/item/file/FlatFileItemReader.html
+    </description>
+    <!-- 
+        inline xmlns, otherwise it would look like 'batch:job, batch:step, etc.' 
+    -->
+    <job id="gzipFlatFileReaderJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="gzipFlatFileReaderStep">
+            <tasklet>
+                <chunk reader="itemReader" writer="itemWriter" commit-interval="5" />
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="#{jobParameters['input.file']}" />
+        <property name="lineMapper">
+            <bean class="org.springframework.batch.item.file.mapping.PassThroughLineMapper" />
+        </property>
+        <property name="strict" value="true" />
+        <property name="bufferedReaderFactory">
+            <bean class="de.langmi.spring.batch.examples.readers.file.gzip.GZipBufferedReaderFactory" />
+        </property>
+    </bean>
+    
+    <bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+        <property name="resource" value="#{jobParameters['output.file']}" />
+        <property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+        </property>
+    </bean>
+
+</beans>
