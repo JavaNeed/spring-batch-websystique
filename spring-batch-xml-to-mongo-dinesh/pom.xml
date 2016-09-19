@@ -21,7 +21,8 @@
 		<spring.batch.version>3.0.6.RELEASE</spring.batch.version>
 		<spring.data.version>1.8.4.RELEASE</spring.data.version>
 		<mongodb.driver.version>3.1.1</mongodb.driver.version>
-
+		<logback.version>1.1.7</logback.version>
+		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
 		<!-- Test -->
 		<junit.version>4.11</junit.version>
 
@@ -73,6 +74,19 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.version}</version>
+		</dependency>
+		
+		<!-- logging, slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcl-over-slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
 		</dependency>
 
 		<!-- Junit -->
