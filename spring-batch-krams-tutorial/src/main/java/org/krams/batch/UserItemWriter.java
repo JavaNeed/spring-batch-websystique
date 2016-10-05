@@ -8,20 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UserItemWriter implements ItemWriter<User> {
-	
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	public static final String INSERT_QUERY = "insert into user(firstName, " +
-			"lastName, " +
-			"password, " +
-			"username) " +
-			"values(?,?,?,?);";
-	
+
+	public static final String INSERT_QUERY = "INSERT INTO user(firstName,lastName, password, username) VALUES (?,?,?,?)";
+
 	@Override
 	public void write(List<? extends User> users) throws Exception {
 		for (User user : users) {
-			jdbcTemplate.update(INSERT_QUERY, user.getFirstName(), user.getLastName(), user.getPassword(), user.getUsername());
+			String firstName = user.getFirstName();
+			String lastName = user.getLastName();
+			String passwprd = user.getPassword();
+			String username = user.getUsername();
+			jdbcTemplate.update(INSERT_QUERY, firstName, lastName, passwprd, username);
 		}
 	}
 

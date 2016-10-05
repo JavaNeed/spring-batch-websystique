@@ -9,23 +9,15 @@ import org.krams.domain.User;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 public class RoleItemWriter implements ItemWriter<Role> {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public static final String SELECT_QUERY = "select id," +
-			"firstName, " +
-			"lastName, " +
-			"password, " +
-			"username " +
-			"from user where username = ?";
+	public static final String SELECT_QUERY = "SELECT id,firstName, lastName, password, username FROM user WHERE username = ?";
 
-	public static final String INSERT_QUERY = "insert into role(role, " +
-			"user_id) " +
-			"values(?,?);";
+	public static final String INSERT_QUERY = "INSERT INTO role (role, user_id) VALUES (?,?);";
 
 	@Override
 	public void write(List<? extends Role> roles) {
@@ -34,23 +26,21 @@ public class RoleItemWriter implements ItemWriter<Role> {
 
 			Object[] params = new Object[1];
 			params[0] = role.getUser().getUsername();
-			User user = jdbcTemplate.queryForObject(SELECT_QUERY, params, new RowMapper<User>() {
-
-				@Override
-				public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-					User user  = new User();
-					user.setId(rs.getLong("id"));
-					user.setFirstName(rs.getString("firstName"));
-					user.setLastName(rs.getString("lastName"));
-					user.setUsername(rs.getString("username"));
-					user.setPassword(rs.getString("password"));
-					
-					return user;
-				}
-			});
+			User user = jdbcTemplate.queryForObject(SELECT_QUERY, params, this::mapUser);
+			
 			jdbcTemplate.update(INSERT_QUERY, role.getRole(), user.getId());
 		}
 
 	}
 
+	private User mapUser(ResultSet rs, int row) throws SQLException {
+		User user = new User();
+		user.setId(rs.getLong("id"));
+		user.setFirstName(rs.getString("firstName"));
+		user.setLastName(rs.getString("lastName"));
+		user.setUsername(rs.getString("username"));
+		user.setPassword(rs.getString("password"));
+
+		return user;
+	}
 }

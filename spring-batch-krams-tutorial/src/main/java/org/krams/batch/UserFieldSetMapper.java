@@ -8,7 +8,6 @@ public class UserFieldSetMapper implements FieldSetMapper<User> {
 	
 	@Override
 	public User mapFieldSet(FieldSet fs) {
-		
 		if(fs == null){
 			return null;
 		}

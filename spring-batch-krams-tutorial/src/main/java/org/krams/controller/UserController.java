@@ -34,6 +34,7 @@ public class UserController {
 	
 	private List<UserDto> map(List<User> users) {
 		List<UserDto> dtos = new ArrayList<UserDto>();
+		
 		for (User u: users) {
 			UserDto dto = new UserDto(u.getUsername(), u.getPassword(), u.getFirstName(),u.getLastName(), u.getRole().getRole());
 			dtos.add(dto);

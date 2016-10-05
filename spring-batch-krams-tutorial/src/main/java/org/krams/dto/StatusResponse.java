@@ -56,7 +56,6 @@ public class StatusResponse {
 			sb.append(mess +", ");
 		}
 		
-		return "StatusResponse [success=" + success + ", message=" + sb.toString()
-				+ "]";
+		return "StatusResponse [success=" + success + ", message=" + sb.toString()+ "]";
 	}
 }

@@ -18,6 +18,7 @@
 
 	<context:property-placeholder properties-ref="deployProperties" />
 
+	<!-- =============   Actual Job      =============== -->
 	<job id="batchJob1" xmlns="http://www.springframework.org/schema/batch">
 		<step id="userload1" next="roleLoad1">
 			<tasklet>
@@ -31,15 +32,21 @@
 		</step>
 	</job>
 
+
+	<!--  ===============  Item Reader =============== -->
 	<bean id="userFileItemReader1" class="org.springframework.batch.item.file.FlatFileItemReader">
 		<property name="resource" value="classpath:${user1.file.name}" />
+		
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<!-- For LineTokenizer -->
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="names" value="username,firstName,lastName,password" />
 					</bean>
 				</property>
+				
+				<!-- For FieldSetMapper -->
 				<property name="fieldSetMapper">
 					<bean class="org.krams.batch.UserFieldSetMapper" />
 				</property>
@@ -47,6 +54,8 @@
 		</property>
 	</bean>
 
+
+	<!--  ===============  Item Reader =============== -->
 	<bean id="roleFileItemReader1" class="org.springframework.batch.item.file.FlatFileItemReader">
 		<property name="resource" value="classpath:${role1.file.name}" />
 		<property name="lineMapper">
