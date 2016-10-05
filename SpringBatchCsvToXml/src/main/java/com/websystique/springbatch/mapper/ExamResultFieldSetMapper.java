@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 
 import com.websystique.springbatch.model.ExamResult;
 
-public class ExamResultFieldSetMapper implements FieldSetMapper<ExamResult>{
+public class ExamResultFieldSetMapper implements FieldSetMapper<ExamResult> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExamResultFieldSetMapper.class);
 
 	@Override
@@ -17,8 +17,9 @@ public class ExamResultFieldSetMapper implements FieldSetMapper<ExamResult>{
 		LOGGER.debug("~~~~ ExamResultFieldSetMapper : mapFieldSet ~~~~");
 		ExamResult result = new ExamResult();
 		result.setStudentName(fieldSet.readString(0));
-		result.setDob(new LocalDate(fieldSet.readDate(1,"dd/MM/yyyy")));
+		result.setDob(new LocalDate(fieldSet.readDate(1, "dd/MM/yyyy")));
 		result.setPercentage(fieldSet.readDouble(2));
+
 		return result;
 	}
 }

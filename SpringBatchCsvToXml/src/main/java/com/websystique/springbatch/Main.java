@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
 
 	@SuppressWarnings("resource")
-	public static void main(String areg[]){
+	public static void main(String areg[]) {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-batch-context.xml");
 
@@ -21,7 +21,7 @@ public class Main {
 		try {
 			System.out.println("-----------------------------------------");
 			JobExecution execution = jobLauncher.run(job, new JobParameters());
-			System.out.println("Job Exit Status : "+ execution.getStatus());
+			System.out.println("Job Exit Status : " + execution.getStatus());
 			System.out.println("-----------------------------------------");
 		} catch (JobExecutionException e) {
 			System.out.println("Job ExamResult failed");
