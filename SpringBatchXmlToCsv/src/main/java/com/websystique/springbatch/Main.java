@@ -19,9 +19,10 @@ public class Main {
 		Job job = (Job) context.getBean("examResultJob");
 	 
 		try {
+			System.out.println("-------------------------------------------");
 			JobExecution execution = jobLauncher.run(job, new JobParameters());
 			System.out.println("Job Exit Status : "+ execution.getStatus());
-	 
+			System.out.println("-------------------------------------------");
 		} catch (JobExecutionException e) {
 			System.out.println("Job ExamResult failed");
 			e.printStackTrace();

@@ -4,3 +4,76 @@ SpringBatchXmlToCsv
 Reference URL:
 --------------
 http://websystique.com/springbatch/spring-batch-read-an-xml-file-and-write-to-a-csv-file/
+
+
+spring-batch-context.xml
+-------------------------
+```
+<!-- JobRepository and JobLauncher are configuration/setup classes -->
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean id="jobLauncher" 	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+
+	<!-- ============== ItemReader which reads data from XML file ================== -->
+	<bean id="xmlItemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
+
+		<property name="resource" value="classpath:examResult.xml" />
+
+		<property name="fragmentRootElementName" value="ExamResult" />
+
+		<property name="unmarshaller">
+			<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+				<property name="classesToBeBound">
+					<list>
+						<value>com.websystique.springbatch.model.ExamResult</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- =============== ItemWriter write a line into output flat file =================== -->
+	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+
+		<property name="resource" value="file:csv/examResult.txt" />
+		<property name="lineAggregator">
+
+			<!-- An Aggregator which converts an object into delimited list of strings -->
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+
+				<property name="fieldExtractor">
+					<!-- Extractor which returns the value of beans property through reflection -->
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="studentName, percentage, dob" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
+	<bean id="itemProcessor" class="com.websystique.springbatch.ExamResultItemProcessor" />
+
+	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
+	<bean id="jobListener" class="com.websystique.springbatch.ExamResultJobListener" />
+
+	<!-- Step will need a transaction manager -->
+	<bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<!-- Actual Job -->
+	<batch:job id="examResultJob">
+		<batch:step id="step1">
+			<batch:tasklet transaction-manager="transactionManager">
+				<batch:chunk reader="xmlItemReader" writer="flatFileItemWriter" processor="itemProcessor" commit-interval="10" />
+			</batch:tasklet>
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="jobListener" />
+		</batch:listeners>
+	</batch:job>
+```

@@ -29,8 +29,10 @@ public class ExamResultJobListener implements JobExecutionListener{
 		if(jobExecution.getStatus() == BatchStatus.COMPLETED){
 			System.out.println("ExamResult job completed successfully");
 			//Here you can perform some other business logic like cleanup
-		}else if(jobExecution.getStatus() == BatchStatus.FAILED){
+		}
+		else if(jobExecution.getStatus() == BatchStatus.FAILED){
 			System.out.println("ExamResult job failed with following exceptions ");
+			
 			List<Throwable> exceptionList = jobExecution.getAllFailureExceptions();
 			for(Throwable th : exceptionList){
 				System.err.println("exception :" +th.getLocalizedMessage());

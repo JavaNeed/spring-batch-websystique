@@ -48,8 +48,7 @@ public class ExamResult {
 
 	@Override
 	public String toString() {
-		return "ExamResult [studentName=" + studentName + ", dob=" + dob
-				+ ", percentage=" + percentage + "]";
+		return "ExamResult [studentName=" + studentName + ", dob=" + dob+ ", percentage=" + percentage + "]";
 	}
 
 }
